@@ -32,6 +32,8 @@ function App() {
         dueTime,
         isCompleted: false
       }]);
+    } else {
+      alert("Please fill out all fields.");
     }
   }
 
@@ -53,7 +55,7 @@ function App() {
     setTasksAndSave(newTasks);
   }
 
-  function markAllDone() {
+  function markAllTasksDone() {
     const newTasks = tasks.map(task => ({
       ...task,
       isCompleted: true
@@ -61,7 +63,7 @@ function App() {
     setTasksAndSave(newTasks);
   }
 
-  function markAllUndone() {
+  function markAllTasksUndone() {
     const newTasks = tasks.map(task => ({
       ...task,
       isCompleted: false
@@ -73,6 +75,21 @@ function App() {
     setTasksAndSave([]);
   }
 
+  function editTask(taskId, newTitle, newDueDate, newDueTime) {
+    const newTasks = tasks.map(task => {
+      if (task.id === taskId) {
+        return {
+          ...task,
+          title: newTitle,
+          dueDate: newDueDate,
+          dueTime: newDueTime
+        };
+      }
+      return task;
+    });
+    setTasksAndSave(newTasks);
+  }
+
   return (
     <>
       <Header handleAddTask={addTask} />
@@ -80,8 +97,9 @@ function App() {
         tasks={tasks}
         onDelete={deleteTaskById}
         onComplete={toggleTaskCompletedById}
-        onMarkAllDone={markAllDone}
-        onMarkAllUndone={markAllUndone}
+        onEdit={editTask}
+        onMarkAllDone={markAllTasksDone}
+        onMarkAllUndone={markAllTasksUndone}
         onDeleteAll={deleteAllTasks}
       />
     </>

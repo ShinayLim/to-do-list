@@ -1,10 +1,16 @@
 import { Task } from '../Task';
 import styles from './tasks.module.scss';
 
-export function Tasks({ tasks, onDelete, onComplete, onMarkAllDone, onMarkAllUndone, onDeleteAll }) {
+export function Tasks({ tasks, onDelete, onComplete, onEdit, onMarkAllDone, onMarkAllUndone, onDeleteAll }) {
   const tasksQuantity = tasks.length;
   const completedTasks = tasks.filter(task => task.isCompleted).length;
   const completionRate = tasksQuantity === 0 ? 0 : (completedTasks / tasksQuantity) * 100;
+
+  const hasReachedDueDate = (dueDate, dueTime) => {
+    const currentDateTime = new Date();
+    const dueDateTime = new Date(`${dueDate}T${dueTime}`);
+    return currentDateTime > dueDateTime; // Using `>` instead of `>=` to mark as missed if past due time
+  };
 
   return (
     <section className={styles.tasks}>
@@ -36,7 +42,14 @@ export function Tasks({ tasks, onDelete, onComplete, onMarkAllDone, onMarkAllUnd
 
           <div className={styles.list}>
             {tasks.map((task) => (
-              <Task key={task.id} task={task} onDelete={onDelete} onComplete={onComplete} />
+              <Task
+                key={task.id}
+                task={task}
+                onDelete={onDelete}
+                onComplete={onComplete}
+                onEdit={onEdit}
+                highlight={hasReachedDueDate(task.dueDate, task.dueTime)}
+              />
             ))}
           </div>
         </>
