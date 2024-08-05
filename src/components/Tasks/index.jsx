@@ -1,5 +1,5 @@
 import { Task } from '../Task';
-import styles from './tasks.module.css';
+import styles from './tasks.module.scss';
 
 export function Tasks({ tasks, onDelete, onComplete, onMarkAllDone, onMarkAllUndone, onDeleteAll }) {
   const tasksQuantity = tasks.length;

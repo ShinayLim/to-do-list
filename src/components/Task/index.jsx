@@ -1,4 +1,4 @@
-import styles from './task.module.css';
+import styles from './task.module.scss';
 import { BsFillCheckCircleFill } from 'react-icons/bs';
 import { TbTrash } from 'react-icons/tb';
 
