@@ -1,6 +1,3 @@
-Here's a `README.md` file for your project. This file provides an overview, setup instructions, usage details, and other relevant information.
-
-```markdown
 # Todo List Application
 
 ## Overview
@@ -65,32 +62,6 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 7. **View Progress**: The progress bar above the task list shows the percentage of completed tasks.
 8. **No Tasks**: If there are no tasks, a message will prompt you to add a task.
 
-## File Structure
-
-```
-todo-list-app/
-├── public/
-│   ├── index.html
-│   └── ...
-├── src/
-│   ├── assets/
-│   │   └── todoLogo.svg
-│   ├── components/
-│   │   ├── Header.jsx
-│   │   ├── Task.jsx
-│   │   ├── Tasks.jsx
-│   │   └── ...
-│   ├── App.jsx
-│   ├── index.css
-│   ├── index.js
-│   └── ...
-├── package.json
-└── README.md
-```
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
