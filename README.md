@@ -29,3 +29,10 @@ This is a simple Todo List application built with React. It allows users to add,
    ```sh
    git clone https://github.com/your-username/todo-list-app.git
    cd todo-list-app
+
+2. Install dependencies
+npm install
+# or
+yarn install
+
+
