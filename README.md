@@ -12,6 +12,7 @@ This is a simple Todo List application built with React. It allows users to add,
 - Mark all tasks as completed
 - Mark all tasks as uncompleted
 - Delete all tasks
+- Edit and Update the name of the task
 - Progress bar showing the percentage of completed tasks
 - Local storage support to save tasks
 
