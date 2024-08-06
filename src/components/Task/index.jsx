@@ -1,3 +1,4 @@
+import 'react-datepicker/dist/react-datepicker.css';
 import React, { useState } from 'react';
 import styles from './task.module.scss';
 import { BsFillCheckCircleFill } from 'react-icons/bs';
@@ -38,17 +39,20 @@ export function Task({ task, onDelete, onComplete, onEdit, highlight }) {
               value={newTitle}
               onChange={(e) => setNewTitle(e.target.value)}
               placeholder="Task title"
+              className={styles.customInput}
             />
             <DatePicker
               selected={newDueDate}
               onChange={(date) => setNewDueDate(date)}
               dateFormat="yyyy-MM-dd"
-              className={styles.datePicker}
+              className={`${styles.datePicker} ${styles.customInput}`}
+              popperClassName={styles.customPopper}
             />
             <input
               type="time"
               value={newDueTime}
               onChange={(e) => setNewDueTime(e.target.value)}
+              className={styles.customInput}
             />
             <button className={styles.saveButton} onClick={handleEdit}>Save</button>
             <button className={styles.cancelButton} onClick={() => setIsEditing(false)}>Cancel</button>
