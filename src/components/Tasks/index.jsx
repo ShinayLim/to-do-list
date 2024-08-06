@@ -12,6 +12,12 @@ export function Tasks({ tasks, onDelete, onComplete, onEdit, onMarkAllDone, onMa
     return currentDateTime > dueDateTime; // Using `>` instead of `>=` to mark as missed if past due time
   };
 
+  const handleDeleteAll = () => {
+    if (window.confirm('Are you sure you want to delete all tasks?')) {
+      onDeleteAll();
+    }
+  };
+
   return (
     <section className={styles.tasks}>
       <header className={styles.header}>
@@ -37,7 +43,7 @@ export function Tasks({ tasks, onDelete, onComplete, onEdit, onMarkAllDone, onMa
           <div className={styles.buttons}>
             <button onClick={onMarkAllDone} className={styles.actionButton}>Mark All Done</button>
             <button onClick={onMarkAllUndone} className={styles.actionButton}>Mark All Undone</button>
-            <button onClick={onDeleteAll} className={styles.actionButton}>Delete All</button>
+            <button onClick={handleDeleteAll} className={styles.actionButton}>Delete All</button>
           </div>
 
           <div className={styles.list}>

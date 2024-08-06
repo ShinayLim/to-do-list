@@ -1,25 +1,26 @@
+import React, { useState } from 'react';
 import styles from './task.module.scss';
-import { useState } from 'react';
 import { BsFillCheckCircleFill } from 'react-icons/bs';
 import { TbTrash } from 'react-icons/tb';
-import { BsPencilSquare } from "react-icons/bs";
+import { BsPencilSquare } from 'react-icons/bs';
+import DatePicker from 'react-datepicker';
 
 function formatTimeTo12Hour(timeString) {
   const [hours, minutes] = timeString.split(':').map(Number);
   const ampm = hours >= 12 ? 'PM' : 'AM';
-  const formattedHours = ((hours + 11) % 12 + 1); // Converts hours from 24-hour format to 12-hour format
-  const formattedMinutes = minutes.toString().padStart(2, '0'); // Pads minutes to ensure two digits
+  const formattedHours = ((hours + 11) % 12 + 1);
+  const formattedMinutes = minutes.toString().padStart(2, '0');
   return `${formattedHours}:${formattedMinutes} ${ampm}`;
 }
 
 export function Task({ task, onDelete, onComplete, onEdit, highlight }) {
   const [isEditing, setIsEditing] = useState(false);
   const [newTitle, setNewTitle] = useState(task.title);
-  const [newDueDate, setNewDueDate] = useState(task.dueDate);
+  const [newDueDate, setNewDueDate] = useState(new Date(task.dueDate));
   const [newDueTime, setNewDueTime] = useState(task.dueTime);
 
   const handleEdit = () => {
-    onEdit(task.id, newTitle, newDueDate, newDueTime);
+    onEdit(task.id, newTitle, newDueDate.toISOString().split('T')[0], newDueTime);
     setIsEditing(false);
   };
 
@@ -38,10 +39,11 @@ export function Task({ task, onDelete, onComplete, onEdit, highlight }) {
               onChange={(e) => setNewTitle(e.target.value)}
               placeholder="Task title"
             />
-            <input
-              type="date"
-              value={newDueDate}
-              onChange={(e) => setNewDueDate(e.target.value)}
+            <DatePicker
+              selected={newDueDate}
+              onChange={(date) => setNewDueDate(date)}
+              dateFormat="yyyy-MM-dd"
+              className={styles.datePicker}
             />
             <input
               type="time"
@@ -62,17 +64,12 @@ export function Task({ task, onDelete, onComplete, onEdit, highlight }) {
               <span>{formatTimeTo12Hour(task.dueTime)}</span>
             </div>
             <div className="edit_task">
-            <button className={styles.editButton} onClick={() => setIsEditing(true)}><BsPencilSquare /></button>
-
-            <button className={styles.deleteButton} onClick={() => onDelete(task.id)}>
-        <TbTrash size={20} />
-      </button>
+              <button className={styles.editButton} onClick={() => setIsEditing(true)}><BsPencilSquare /></button>
+              <button className={styles.deleteButton} onClick={() => onDelete(task.id)}><TbTrash size={20} /></button>
             </div>
           </>
         )}
       </div>
-
-      
     </div>
   );
 }
