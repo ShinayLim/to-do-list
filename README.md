@@ -73,6 +73,4 @@ This project is licensed under the MIT License.
 - [React](https://reactjs.org/)
 - [React Icons](https://react-icons.github.io/react-icons/)
 - [Bootstrap](https://getbootstrap.com/)
-```
-
-Feel free to customize this `README.md` file further based on your project's specifics and any additional details you'd like to include.
+``
