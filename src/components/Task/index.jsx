@@ -1,16 +1,16 @@
-import 'react-datepicker/dist/react-datepicker.css';
-import React, { useState } from 'react';
-import styles from './task.module.scss';
-import { BsFillCheckCircleFill } from 'react-icons/bs';
-import { TbTrash } from 'react-icons/tb';
-import { BsPencilSquare } from 'react-icons/bs';
-import DatePicker from 'react-datepicker';
+import React, { useState } from "react";
+import styles from "./task.module.scss";
+import { BsFillCheckCircleFill } from "react-icons/bs";
+import { TbTrash } from "react-icons/tb";
+import { BsPencilSquare } from "react-icons/bs";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 function formatTimeTo12Hour(timeString) {
-  const [hours, minutes] = timeString.split(':').map(Number);
-  const ampm = hours >= 12 ? 'PM' : 'AM';
-  const formattedHours = ((hours + 11) % 12 + 1);
-  const formattedMinutes = minutes.toString().padStart(2, '0');
+  const [hours, minutes] = timeString.split(":").map(Number);
+  const ampm = hours >= 12 ? "PM" : "AM";
+  const formattedHours = ((hours + 11) % 12) + 1;
+  const formattedMinutes = minutes.toString().padStart(2, "0");
   return `${formattedHours}:${formattedMinutes} ${ampm}`;
 }
 
@@ -19,15 +19,33 @@ export function Task({ task, onDelete, onComplete, onEdit, highlight }) {
   const [newTitle, setNewTitle] = useState(task.title);
   const [newDueDate, setNewDueDate] = useState(new Date(task.dueDate));
   const [newDueTime, setNewDueTime] = useState(task.dueTime);
+  const [error, setError] = useState("");
 
   const handleEdit = () => {
-    onEdit(task.id, newTitle, newDueDate.toISOString().split('T')[0], newDueTime);
+    if (newTitle.trim() === "") {
+      setError("Task name cannot be blank");
+      return;
+    }
+    if (!newDueDate || !newDueTime) {
+      setError("Due date and time cannot be blank");
+      return;
+    }
+    onEdit(
+      task.id,
+      newTitle,
+      newDueDate.toISOString().split("T")[0],
+      newDueTime
+    );
     setIsEditing(false);
+    setError("");
   };
 
   return (
-    <div className={`${styles.task} ${highlight ? styles.taskDue : ''}`}>
-      <button className={styles.checkContainer} onClick={() => onComplete(task.id)}>
+    <div className={`${styles.task} ${highlight ? styles.taskDue : ""}`}>
+      <button
+        className={styles.checkContainer}
+        onClick={() => onComplete(task.id)}
+      >
         {task.isCompleted ? <BsFillCheckCircleFill /> : <div />}
       </button>
 
@@ -38,13 +56,13 @@ export function Task({ task, onDelete, onComplete, onEdit, highlight }) {
               type="text"
               value={newTitle}
               onChange={(e) => setNewTitle(e.target.value)}
-              placeholder="Task title"
+              placeholder="Task name"
               className={styles.customInput}
             />
             <DatePicker
               selected={newDueDate}
               onChange={(date) => setNewDueDate(date)}
-              dateFormat="yyyy-MM-dd"
+              dateFormat="dd-MM-yyyy"
               className={`${styles.datePicker} ${styles.customInput}`}
               popperClassName={styles.customPopper}
             />
@@ -54,12 +72,24 @@ export function Task({ task, onDelete, onComplete, onEdit, highlight }) {
               onChange={(e) => setNewDueTime(e.target.value)}
               className={styles.customInput}
             />
-            <button className={styles.saveButton} onClick={handleEdit}>Save</button>
-            <button className={styles.cancelButton} onClick={() => setIsEditing(false)}>Cancel</button>
+            {error && <p className={styles.error}>{error}</p>}
+            <button className={styles.saveButton} onClick={handleEdit}>
+              Save
+            </button>
+            <button
+              className={styles.cancelButton}
+              onClick={() => setIsEditing(false)}
+            >
+              Cancel
+            </button>
           </div>
         ) : (
           <>
-            <p className={`${task.isCompleted ? styles.textCompleted : ''} ${highlight ? styles.missed : ''}`}>
+            <p
+              className={`${task.isCompleted ? styles.textCompleted : ""} ${
+                highlight ? styles.missed : ""
+              }`}
+            >
               {task.title}
               {highlight && <span className={styles.missedLabel}> Missed</span>}
             </p>
@@ -68,8 +98,18 @@ export function Task({ task, onDelete, onComplete, onEdit, highlight }) {
               <span>{formatTimeTo12Hour(task.dueTime)}</span>
             </div>
             <div className="edit_task">
-              <button className={styles.editButton} onClick={() => setIsEditing(true)}><BsPencilSquare /></button>
-              <button className={styles.deleteButton} onClick={() => onDelete(task.id)}><TbTrash size={20} /></button>
+              <button
+                className={styles.editButton}
+                onClick={() => setIsEditing(true)}
+              >
+                <BsPencilSquare />
+              </button>
+              <button
+                className={styles.deleteButton}
+                onClick={() => onDelete(task.id)}
+              >
+                <TbTrash size={20} />
+              </button>
             </div>
           </>
         )}
