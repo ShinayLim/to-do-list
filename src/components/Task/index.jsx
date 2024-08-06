@@ -26,10 +26,6 @@ export function Task({ task, onDelete, onComplete, onEdit, highlight }) {
       setError("Task name cannot be blank");
       return;
     }
-    if (!newDueDate || !newDueTime) {
-      setError("Due date and time cannot be blank");
-      return;
-    }
     onEdit(
       task.id,
       newTitle,
