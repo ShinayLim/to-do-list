@@ -61,14 +61,18 @@ export function Task({ task, onDelete, onComplete, onEdit, highlight }) {
               <span>{task.dueDate}</span>
               <span>{formatTimeTo12Hour(task.dueTime)}</span>
             </div>
+            <div className="edit_task">
             <button className={styles.editButton} onClick={() => setIsEditing(true)}><BsPencilSquare /></button>
+
+            <button className={styles.deleteButton} onClick={() => onDelete(task.id)}>
+        <TbTrash size={20} />
+      </button>
+            </div>
           </>
         )}
       </div>
 
-      <button className={styles.deleteButton} onClick={() => onDelete(task.id)}>
-        <TbTrash size={20} />
-      </button>
+      
     </div>
   );
 }
